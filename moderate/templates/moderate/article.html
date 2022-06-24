@@ -1,0 +1,21 @@
+{% extends "moderate/base.html" %}
+{% block page_header %} 
+    <a href="#">
+        {{ article.author }}
+    </a>
+    {{ article.date|date:"j F Y" }}
+
+    {% for tag in article.tags.all %}
+        <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }}</a>
+    {% endfor %}
+
+   <!-- <hr> -->
+{% endblock page_header %}  
+
+{% block content %}
+    <div>
+        <h2>{{ article.title }}</h2>
+        <p>{{ article.text }}</p>
+
+    </div>
+{% endblock content %}
