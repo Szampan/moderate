@@ -1,12 +1,10 @@
 from django.contrib import admin
 from embed_video.admin import AdminVideoMixin
-
 from .models import Article, Image, Video
 
 class VideoInline(admin.TabularInline):
     model = Video
     extra = 1 
-
 
 class ImageInline(admin.TabularInline):
     model = Image
@@ -15,10 +13,8 @@ class ImageInline(admin.TabularInline):
 class ArticleAdmin(admin.ModelAdmin):
     inlines = [VideoInline, ImageInline]
 
-
 class  VideoAdmin(AdminVideoMixin, admin.ModelAdmin):
 	pass
 
-# admin.site.register(Video, VideoAdmin)
 admin.site.register(Article, ArticleAdmin)
 
