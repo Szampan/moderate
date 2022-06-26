@@ -1,21 +1,59 @@
-{% extends "moderate/base.html" %}
+{% extends "moderate/base.html" %}{% load embed_video_tags %}
 {% block page_header %} 
     <a href="#">
         {{ article.author }}
     </a>
     {{ article.date|date:"j F Y" }}
-
+    
     {% for tag in article.tags.all %}
-        <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }}</a>
+    <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }}</a>
     {% endfor %}
-
-   <!-- <hr> -->
-{% endblock page_header %}  
-
-{% block content %}
+    
+    {% endblock page_header %}  
+    
+    {% block content %}
+   
     <div>
         <h2>{{ article.title }}</h2>
         <p>{{ article.text }}</p>
+        {% if article.image_set.all %}
+        <div class="row">
+            {% for art_image in article.image_set.all %}
+                <div class="col-md-4">
+                    <img src="{{ art_image.image.url }}" class="img-fluid">
+                </div>
+                {% endfor %}
+        </div>
+        {% endif %}
 
+
+        {% if article.video_set.all %}
+            <div class="row">
+                {% for art_video in article.video_set.all %}
+                    <div class="col-md-6">{% video art_video 'tiny' %}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        
     </div>
+    <hr class="my-5">
+
+    <div id="disqus_thread"></div>
+    <script>
+    
+    /*
+    var disqus_config = function () {
+    this.page.url = '{{ article.get_absolute_url }}';  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = '{{ article.id }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://moderate-1.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 {% endblock content %}

@@ -51,4 +51,15 @@ class TagView(ListView):
         context = super().get_context_data(**kwargs)
         context['tag'] = Tag.objects.get(pk=self.kwargs['pk'])
         return context
+
+class TagsView(ListView):
+    model = Tag
+    template_name = 'moderate/tags.html'
+    context_object_name = 'tags'
+    paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.order_by('-id')
+        return qs
     

@@ -2,6 +2,7 @@
 
 {% block page_header %} 
     <span>Tag:</span> <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }} </a>
+    <span><a href="{% url 'moderate:tags' %}">Show latest tags</a></span>
 {% endblock page_header %}  
 
 {% block content %}
@@ -9,8 +10,11 @@
         {% for article in articles %}
             <div class="card mb-3">
                 <div class="card-body">
-                    <h2 class="card-title">{{ article.title }}</h2>
-                    <p class="card-text">{{ article.text|truncatewords:60 }}</p>
+                    <a href="{% url 'moderate:article' article.id %}">
+
+                        <h2 class="card-title">{{ article.title }}</h2>
+                        <p class="card-text">{{ article.text|truncatewords:60 }}</p>
+                    </a>
                     <div style="display:flex">
                         <span class="small">{{ article.date|date:"j F Y" }}</span>
                         {% for tag in article.tags.all %}
@@ -23,6 +27,29 @@
         {% endfor %}
     </div>
 
-       
-    {% include 'moderate\paginate.html' %}
+    {% if page_obj.has_previous or page_obj.has_next %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a href="{% url 'moderate:tag' tag.id %}?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                </li>
+                {% endif %}
+                <li class="page-item disabled"> 
+                    <a href="#" class="page-link">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </a>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a href="{% url 'moderate:tag' tag.id %}?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
+
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+
+
+
 {% endblock content %}
