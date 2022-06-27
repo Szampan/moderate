@@ -1,9 +1,9 @@
 {% extends "moderate/base.html" %}
 {% block page_header %} 
     {% if not page_obj.has_previous %}
-        <div class="jumbotron bg-light">
-            <div class="container p-3">
-                <h1 class="display-3">Moderate - a Medium clone</h1>
+        <div class="jumbotron bg-light mb-4 rounded shadow-sm">
+            <div class="container p-5 text-center ">
+                <h1 class="display-3"><span class="fw-bold"> Moderate.</span> - a Medium clone</h1>
                 <p class="lead">Optimo Development recruitment assignment</p>
             </div>
         </div>
@@ -12,25 +12,23 @@
 
 {% block content %}
     <div>
-
-            {% for article in articles %}
-                    <div class="card mb-3">
-                        <div class="card-body">
-
-                            <a href="{% url 'moderate:article' article.id %}">
-                                <h2 class="display-8">{{ article.title }}</h4>
-                                    <p>{{ article.text|truncatewords:60 }}</p>
-                                </a>
-                                <div style="display:flex">
-                                    <span class="small">{{ article.date|date:"j F Y" }}</span>
-                                    {% for tag in article.tags.all %}
-                                    <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }} </a>
-                                    {% endfor %}
-                                </div>
-                                <p>author: {{ article.author }}</p>
-                            </div>
+        {% for article in articles %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body pe-5">
+                        <a href="{% url 'moderate:article' article.id %}" class="text-body text-decoration-none">
+                            <h2 class="card-title">{{ article.title }}</h4>
+                            <p class="card-text mb-3">{{ article.text|truncatewords:60 }}</p>
+                        </a>
+                        <div style="display:flex">
+                            <span class="small">{{ article.date|date:"j F Y" }}</span>
+                            {% for tag in article.tags.all %}
+                                <a href="{% url 'moderate:tag' tag.id %}" class="ms-2 badge rounded-pill bg-secondary">#{{ tag }} </a>
+                            {% endfor %}
+                        </div>
+                        <p class="small mt-2 mb-1">author: <strong>{{ article.author }}</strong></p>
                     </div>
-            {% endfor %}
+                </div>
+        {% endfor %}
     </div>
     {% include 'moderate\paginate.html' %}
 {% endblock content %}

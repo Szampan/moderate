@@ -1,19 +1,21 @@
 {% extends "moderate/base.html" %}
 
 {% block page_header %} 
-    <span>Tag:</span> <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }} </a>
-    <span><a href="{% url 'moderate:tags' %}">Show latest tags</a></span>
+    <div class="mb-3">
+
+        <span>Tag:</span> <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }} </a>
+        <span><a href="{% url 'moderate:tags' %}" class="text-body text-decoration-none">Show latest tags</a></span>
+    </div>
 {% endblock page_header %}  
 
 {% block content %}
     <div>
         {% for article in articles %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <a href="{% url 'moderate:article' article.id %}">
-
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body pe-5">
+                    <a href="{% url 'moderate:article' article.id %}" class="text-body text-decoration-none">
                         <h2 class="card-title">{{ article.title }}</h2>
-                        <p class="card-text">{{ article.text|truncatewords:60 }}</p>
+                        <p class="card-text mb-3">{{ article.text|truncatewords:60 }}</p>
                     </a>
                     <div style="display:flex">
                         <span class="small">{{ article.date|date:"j F Y" }}</span>
@@ -21,7 +23,7 @@
                             <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }} </a>
                         {% endfor %}
                     </div>
-                    <p>author: {{ article.author }}</p>
+                    <p class="small mt-2 mb-1">author: <strong>{{ article.author }}</strong></p>
                 </div>
             </div>
         {% endfor %}
@@ -32,24 +34,19 @@
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a href="{% url 'moderate:tag' tag.id %}?page={{ page_obj.previous_page_number }}" class="page-link">Previous</a>
+                    <a href="{% url 'moderate:tag' tag.id %}?page={{ page_obj.previous_page_number }}" class="page-link text-body">Previous</a>
                 </li>
                 {% endif %}
                 <li class="page-item disabled"> 
-                    <a href="#" class="page-link">
-                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                    </a>
+                    <a href="#" class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
                 </li>
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a href="{% url 'moderate:tag' tag.id %}?page={{ page_obj.next_page_number }}" class="page-link">Next</a>
-
+                        <a href="{% url 'moderate:tag' tag.id %}?page={{ page_obj.next_page_number }}" class="page-link text-body">Next</a>
                     </li>
                 {% endif %}
             </ul>
         </nav>
     {% endif %}
-
-
 
 {% endblock content %}
