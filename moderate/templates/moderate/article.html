@@ -26,7 +26,6 @@
         </div>
         {% endif %}
 
-
         {% if article.video_set.all %}
             <div class="row">
                 {% for art_video in article.video_set.all %}
@@ -34,10 +33,36 @@
                 {% endfor %}
             </div>
         {% endif %}
-
-        
     </div>
     <hr class="my-5">
+
+
+    {% if user.is_authenticated %}
+        <a href="{% url 'moderate:add_note' article.pk %}">Add private note to the author</a>
+        <hr class="my-5 ">
+    {% endif %}
+
+    {% if request.user == article.author %}
+    <div>
+        <h4>Private notes (visible only to the author of the article)</h4>
+        {% if not article.note_set.all %}
+            <p>No private notes yet</p>
+            {% else %}
+            <ul>
+                {% for note in article.note_set.all %}
+                    <li>
+                        <strong><p class="card-text">{{ note }}, {{ note.date|date:"j F Y" }}</p></strong>
+                        <p class="card-text">{{ note.text }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <hr class="my-5 ">
+    {% endif %}
+
+
+
 
     <div id="disqus_thread"></div>
     <script>

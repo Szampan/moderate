@@ -1,16 +1,9 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
-from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.views import generic
-# import logout
-from django.contrib.auth.views import LogoutView
+from django.views.generic import CreateView
+from .forms import AuthorCreationForm
 
 
-
-class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
+class SignUpView(CreateView):
+    form_class = AuthorCreationForm
     success_url = reverse_lazy("users:login")
     template_name = "registration/signup.html"
-
-    # Add additional info (first_name, last_name, etc.) to the user

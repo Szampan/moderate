@@ -1,6 +1,6 @@
 from django.contrib import admin
 from embed_video.admin import AdminVideoMixin
-from .models import Article, Image, Video
+from .models import Article, Image, Video, Note
 
 class VideoInline(admin.TabularInline):
     model = Video
@@ -17,4 +17,6 @@ class  VideoAdmin(AdminVideoMixin, admin.ModelAdmin):
 	pass
 
 admin.site.register(Article, ArticleAdmin)
+admin.site.register(Note)
+
 

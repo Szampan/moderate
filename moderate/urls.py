@@ -7,6 +7,7 @@ app_name = 'moderate'
 urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('article/<int:pk>/', views.ArticleView.as_view(), name='article'),
+    path('article/<int:pk>/add_form', views.AddNote.as_view(), name='add_note'),
     path('tag/<int:pk>/', views.TagView.as_view(), name='tag'),
     path('tags/', views.TagsView.as_view(), name='tags'),
 ]
