@@ -3,7 +3,6 @@ from django.urls import reverse
 from users.models import Author
 from taggit.managers import TaggableManager
 from embed_video.fields import EmbedVideoField
-
 from .tools import *
 
 
@@ -25,12 +24,14 @@ class Image(models.Model):
     article = models.ForeignKey(Article, default=None, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=image_upload_handler)
 
+
 class Video(models.Model):
     article = models.ForeignKey(Article, default=None, on_delete=models.CASCADE)    
     url = EmbedVideoField(blank=True)
     
     def __str__(self):
         return self.url
+
 
 class Note(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE) 

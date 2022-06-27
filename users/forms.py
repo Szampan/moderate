@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Permission
 from .models import Author
 
+
 class AuthorCreationForm(UserCreationForm):
     
     def save(self, commit=True):
