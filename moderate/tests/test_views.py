@@ -3,7 +3,6 @@ from django.urls import reverse
 from moderate.models import Article, Note
 from users.models import Author
 from taggit.models import Tag
-import json
 
 from django.test.client import RequestFactory
 
@@ -59,10 +58,3 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'moderate/article.html')
         self.assertEqual(Note.objects.count(), 1)
-
-
-
-
-    
-
-
