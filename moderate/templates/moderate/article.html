@@ -1,75 +1,76 @@
 {% extends "moderate/base.html" %}{% load embed_video_tags %}
-{% block page_header %} 
-    <div class="my-4">
-        <a href="#" class="fw-bolder text-body text-decoration-none">{{ article.author }}</a>
-        {{ article.date|date:"j F Y" }}
-        {% for tag in article.tags.all %}
-            <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }}</a>
-        {% endfor %}
-        <hr>
-    </div>
-{% endblock page_header %}  
-    
+
 {% block content %}
-    <div>
-        <h2 class="mb-3">{{ article.title }}</h2>
-        <p>{{ article.text }}</p>
-        {% if article.image_set.all %}
-        <div class="row mt-5">
-            {% for art_image in article.image_set.all %}
-                <div class="col-md-4">
-                    <img src="{{ art_image.image.url }}" class="img-fluid">
-                </div>
+<div class="card">
+    <div class="card-body">
+        <div class="my-4">
+            <a href="#" class="fw-bolder text-body text-decoration-none">{{ article.author }}</a>
+            {{ article.date|date:"j F Y" }}
+            {% for tag in article.tags.all %}
+            <a href="{% url 'moderate:tag' tag.id %}" class="mx-1 badge rounded-pill bg-secondary">#{{ tag }}</a>
             {% endfor %}
-            {% if article.video_set.all %}
-                {% for art_video in article.video_set.all %}
-                    <div class="col-md-4">{% video art_video 'tiny' %}</div>
-                {% endfor %}
-        {% endif %}
+            <hr>
         </div>
-        {% endif %}
-
+        <div>
+            <h2 class="mb-3">{{ article.title }}</h2>
+            <p>{{ article.text }}</p>
+            {% if article.image_set.all %}
+                <div class="row mt-5">
+                    {% for art_image in article.image_set.all %}
+                    <div class="col-md-4">
+                        <img src="{{ art_image.image.url }}" class="img-fluid">
+                    </div>
+                    {% endfor %}
+                    {% if article.video_set.all %}
+                        {% for art_video in article.video_set.all %}
+                        <div class="col-md-4">{% video art_video 'tiny' %}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
     </div>
-    
-    {% if user.is_authenticated %}
-        <hr class="my-4 ">
-        <a href="{% url 'moderate:add_note' article.pk %}" class="text-body">Add private note to the author...</a>
-    {% endif %}
+</div>
 
-    {% if request.user == article.author %}
+{% if user.is_authenticated %}
+    <hr class="my-4 ">
+    <a href="{% url 'moderate:add_note' article.pk %}" class="text-body">Add private note to the author...</a>
+{% endif %}
+
+{% if request.user == article.author %}
     <div class="mt-2">
         <h4>Private notes (visible only to the author of the article)</h4>
         {% if not article.note_set.all %}
-            <p>No private notes yet</p>
-            {% else %}
-            <ul>
-                {% for note in article.note_set.all %}
+        <p>No private notes yet</p>
+        {% else %}
+        <ul>
+            {% for note in article.note_set.all %}
                     <li>
                         <strong><p class="card-text">{{ note }}, {{ note.date|date:"j F Y" }}</p></strong>
                         <p class="card-text">{{ note.text }}</p>
                     </li>
-                {% endfor %}
-            </ul>
+                    {% endfor %}
+                </ul>
         {% endif %}
     </div>
-    {% endif %}
-    <hr class="my-4 ">
-
-    <div id="disqus_thread"></div>
-    <script>
-    /*
-    var disqus_config = function () {
+{% endif %}
+<hr class="my-4 ">
+    
+<div id="disqus_thread"></div>
+<script>
+/*
+var disqus_config = function () {
     this.page.url = '{{ article.get_absolute_url }}';  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = '{{ article.id }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://moderate-1.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
+this.page.identifier = '{{ article.id }}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://moderate-1.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
 {% endblock content %}
